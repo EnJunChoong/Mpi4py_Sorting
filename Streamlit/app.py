@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 ProjectDIR ="/home/ubuntu/Project"
 StreamlitDIR= '/home/ubuntu/Project/Streamlit/'
-msfile=os.path.join(StreamlitDIR,"MergeSort_Streamli_Example.py")
+msfile=os.path.join(StreamlitDIR,"MergeSort_Streamlit_Example.py")
 
 
 def main():
