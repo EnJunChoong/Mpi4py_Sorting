@@ -28,7 +28,7 @@ def main():
         runSingle=st.sidebar.button("Run")
 
         if runSingle:
-            command=(f"mpirun -hostfile /home/node/myhostfile -np {numNodes} python3 {msfile} -l {egRange} -s {StreamlitDIR} -p 0 -t 0")
+            command=(f"mpirun -hostfile /home/ubuntu/myhostfile -np {numNodes} python3 {msfile} -l {egRange} -s {StreamlitDIR} -p 0 -t 0")
             output=os.system(command)
             st.success(command)
             # Result=output.read().split(';')1
@@ -71,7 +71,7 @@ def main():
                 for size in range(0,dataSize,interval):
                     if sortAlgo == 'MergeSort':
                         for loopNodes in range(1,numNodes+1):
-                            command=(f"mpirun -hostfile /home/node/myhostfile -np {loopNodes} python3 {sortAlgoDict[sortAlgo]} -l {size} -s {StreamlitDIR} -p 0 -t 0")
+                            command=(f"mpirun -hostfile /home/ubuntu/myhostfile -np {loopNodes} python3 {sortAlgoDict[sortAlgo]} -l {size} -s {StreamlitDIR} -p 0 -t 0")
                             progress.warning(f'Running "{command}"')
                             output=os.system(command)
                             with open(os.path.join(StreamlitDIR,'resultDict.pickle'), "rb+") as pklfile:
