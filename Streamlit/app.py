@@ -8,8 +8,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-ProjectDIR ="/home/node/Project"
-StreamlitDIR= '/home/node/Project/Streamlit/'
+ProjectDIR ="/home/ubuntu/Project"
+StreamlitDIR= '/home/ubuntu/Project/Streamlit/'
 msfile=os.path.join(StreamlitDIR,"MergeSort_Streamlit.py")
 
 
@@ -119,11 +119,11 @@ def main():
             plt.xlabel("Length of list")
             plt.ylabel("Runtime in second")
             plt.legend()
-            plt.savefig(os.path.join(StreamlitDIR,"Runtime_vs_Data Size.png"))
+            plt.savefig(os.path.join(StreamlitDIR,"Runtime_vs_DataSize.png"))
 
 
         try:
-            st.image(os.path.join(StreamlitDIR,"Runtime_vs_Data Size.png"))
+            st.image(os.path.join(StreamlitDIR,"Runtime_vs_DataSize.png"))
         except:
             pass
         if showTable:
