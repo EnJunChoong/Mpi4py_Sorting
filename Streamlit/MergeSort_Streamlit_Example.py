@@ -68,8 +68,10 @@ if size >1:
 		for i in range(1,size):
 			if i == size-1:
 				comm.send(data[partitions*i:], dest = i)
+				ResultDict[f'data_part{i+1}']=data[partitions*i:]
 			else:
 				comm.send(data[partitions*i:partitions*(i+1)], dest = i)
+				ResultDict[f'data_part{i+1}']=data[partitions*i:partitions*(i+1)]
 		if args["print"] == 1:
 			print("first partition: {}\n".format(p_data))
 
@@ -92,7 +94,9 @@ if size >1:
 		ResultDict['sorted_data_part1']=c_data[0]
 		for i in range(1,size):
 			final = merge(final, c_data[i])
+			ResultDict[f'sorted_data_part{i+1}']=c_data[i]
 
+		ResultDict['sorted_data_merged']=final
 		toc = time.time()
 		runtime=toc-tic
 		ResultDict['runtime']=runtime
@@ -110,9 +114,11 @@ else:
 		data = [random.randint(0, 10000) for i in range(args["length"])]
 		if args["print"] == 1:
 			print("\nGenerated list: {}\n".format(data))
+		ResultDict['data']=data
 		tic = time.time()
 		p_data = data[:]
 		final = mergeSort(p_data)
+		ResultDict['sorted_data']=final
 		toc = time.time()
 		runtime=toc-tic
 		ResultDict['runtime']=runtime

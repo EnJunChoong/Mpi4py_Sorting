@@ -7,10 +7,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-
 ProjectDIR ="/home/ubuntu/Project"
 StreamlitDIR= '/home/ubuntu/Project/Streamlit/'
-msfile=os.path.join(StreamlitDIR,"MergeSort_Streamlit.py")
+msfile=os.path.join(StreamlitDIR,"MergeSort_Streamli_Example.py")
 
 
 def main():
@@ -51,7 +50,7 @@ def main():
                 if file.endswith('_Streamlit.py'):
                     sortAlgoDict[file.replace('_Streamlit.py','')]=os.path.join(root,file)
         dataSize = st.sidebar.number_input("Input maximum number of data points",min_value=100, max_value= 1000000, value=10000, step = 1000)
-        interval = st.sidebar.number_input("Input Computation Interval",min_value=25, max_value= 10000, step = 25)
+        interval = st.sidebar.number_input("Input Computation Interval",min_value=25, max_value= 10000, value=1000, step = 25)
         multiSort = st.sidebar.multiselect('Select Sorting Algorithm.',options=list(sortAlgoDict.keys()),default=['MergeSort'])
         if 'MergeSort' in multiSort:
             st.sidebar.markdown('#### Only Merge Sort is implemented with distributed computing in this exercise.')
@@ -68,7 +67,7 @@ def main():
             loopResult=[]
             # minSize, maxSize = egRange
             for sortAlgo in multiSort:
-                for size in range(0,dataSize,interval):
+                for size in range(interval,dataSize,interval):
                     if sortAlgo == 'MergeSort':
                         for loopNodes in range(1,numNodes+1):
                             command=(f"mpirun -hostfile /home/ubuntu/myhostfile -np {loopNodes} python3 {sortAlgoDict[sortAlgo]} -l {size} -s {StreamlitDIR} -p 0 -t 0")
