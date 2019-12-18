@@ -77,12 +77,12 @@ if size >1:
 		# 	print("first partition: {}\n".format(p_data))
 
 	for i in range(1, size):
-	    if rank == i:
-	    	p_data = comm.recv(source = 0)
-	    	if args["print"] == 1:
+		if rank == i:
+			p_data = comm.recv(source = 0)
+			if args["print"] == 1:
 				print(f"Partition #{i} of {size} assigned to {name}...")
-	    		# print("Received partition at node {}: {}\n".format(rank, p_data))
-
+				# print("Received partition at node {}: {}\n".format(rank, p_data))
+	
 	p_data = mergeSort(p_data)
 
 
