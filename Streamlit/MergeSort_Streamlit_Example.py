@@ -49,7 +49,7 @@ args = vars(ap.parse_args())
 comm = MPI.COMM_WORLD
 rank = comm.rank
 size = comm.size
-name = MPI.Get_processor_name()
+name = comm.Get_processor_name()
 ResultDict={}
 
 if size >1:
