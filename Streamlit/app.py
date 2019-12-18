@@ -13,21 +13,22 @@ msfile=os.path.join(StreamlitDIR,"MergeSort_Streamlit_Example.py")
 
 
 def main():
-    # backdrop=st.image(os.path.join(ProjectDIR,'Streamlit','backdrop.jpeg'))
     st.sidebar.subheader('Sorting Algorithm Demo')
-    selectMode=st.sidebar.selectbox('Select Mode', options=['Run Single Example','Run All Scenarios'],index=0)
+    selectMode=st.sidebar.selectbox('Select Mode', options=['Introduction','Run Single Example','Run All Scenarios'],index=0)
 
-
+    if selectMode == 'Introduction':
+        st.sidebar.text('Change mode to run Demo...')
+        st.markdown('This project is to demonstrate merge sort on distributed computing using 3 AWC EC2 instacnces. Webservice is hosted using Streamlit.')
+        st.image("WorkFlow.png")
 
     if selectMode == 'Run Single Example':
-        # backdrop.empty()
         egRange=st.sidebar.slider("select size of numbers to sort", 100,100000, step=10)
         numNodes= st.sidebar.selectbox("Number of Systems",options=[1,2,3],index=1)
-        showValue=st.sidebar.checkbox('Show value?')
+        showValue=st.sidebar.checkbox('Show value?', value= True)
         runSingle=st.sidebar.button("Run")
 
         if runSingle:
-            command=(f"mpirun -hostfile /home/ubuntu/myhostfile -np {numNodes} python3 {msfile} -l {egRange} -s {StreamlitDIR} -p 0 -t 0")
+            command=(f"mpirun -hostfile /home/ubuntu/myhostfile -np {numNodes} python3 {msfile} -l {egRange} -s {StreamlitDIR} -p 1 -t 0")
             output=os.system(command)
             st.success(command)
             # Result=output.read().split(';')1
@@ -43,7 +44,6 @@ def main():
 
 
     if selectMode == 'Run All Scenarios':
-
         sortAlgoDict={}
         for root, subdir, files in os.walk(StreamlitDIR):
             for file in files:

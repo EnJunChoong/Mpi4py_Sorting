@@ -49,6 +49,7 @@ args = vars(ap.parse_args())
 comm = MPI.COMM_WORLD
 rank = comm.rank
 size = comm.size
+name = MPI.Get_processor_name()
 ResultDict={}
 
 if size >1:
@@ -62,7 +63,8 @@ if size >1:
 		ResultDict['data']=data
 		ResultDict['data_part1']=p_data
 		if args["print"] == 1:
-			print("\nGenerated list: {}\n".format(data))
+			print(f"{args["length"]} random numbers generated...\n")
+			print(f"Partition #1 of {args["size"]} assigned to {name}...\n")
 
 
 		for i in range(1,size):
@@ -72,20 +74,22 @@ if size >1:
 			else:
 				comm.send(data[partitions*i:partitions*(i+1)], dest = i)
 				ResultDict[f'data_part{i+1}']=data[partitions*i:partitions*(i+1)]
-		if args["print"] == 1:
-			print("first partition: {}\n".format(p_data))
+		# if args["print"] == 1:
+		# 	print("first partition: {}\n".format(p_data))
 
 	for i in range(1, size):
 	    if rank == i:
 	    	p_data = comm.recv(source = 0)
 	    	if args["print"] == 1:
-	    		print("Received partition at node {}: {}\n".format(rank, p_data))
+				print(f"Partition #{i} of {args["size"]} assigned to {name}...\n")
+	    		# print("Received partition at node {}: {}\n".format(rank, p_data))
 
 	p_data = mergeSort(p_data)
 
 
 	if args["print"] == 1:
-		print("Sorted data at {}: {}\n".format(rank, p_data))
+		print(f"Partition #{rank+1} of {args["size"]} finished sorted at {name}, send back to Master...\n")
+		# print("Sorted data at {}: {}\n".format(rank, p_data))
 
 	c_data = comm.gather(p_data, root = 0)
 
@@ -95,16 +99,18 @@ if size >1:
 		for i in range(1,size):
 			final = merge(final, c_data[i])
 			ResultDict[f'sorted_data_part{i+1}']=c_data[i]
+		if args["print"] == 1:
+			print(f"Merge of {size} partitionsand final sorting completed at {name}...\n")
 
 		ResultDict['sorted_data_merged']=final
 		toc = time.time()
 		runtime=toc-tic
 		ResultDict['runtime']=runtime
-		if args["print"] == 1:
-			print("Final: {}\n".format(final))
+		# if args["print"] == 1:
+		# 	print("Final: {}\n".format(final))
 
-		if args["time"] == 1:
-			print("running time is {}s\n".format(runtime))
+		# if args["time"] == 1:
+		# 	print("running time is {}s\n".format(runtime))
 
 
 		with open(os.path.join(args["save"],'resultDict.pickle'), "wb+") as output_file:
@@ -112,8 +118,10 @@ if size >1:
 else:
 	if rank == 0:
 		data = [random.randint(0, 10000) for i in range(args["length"])]
+
 		if args["print"] == 1:
-			print("\nGenerated list: {}\n".format(data))
+			print(f"{args["length"]} random numbers generated...\n")
+			print(f"Partition #1 of {args["size"]} assigned to {name}...\n")
 		ResultDict['data']=data
 		tic = time.time()
 		p_data = data[:]
@@ -121,11 +129,14 @@ else:
 		ResultDict['sorted_data']=final
 		toc = time.time()
 		runtime=toc-tic
-		ResultDict['runtime']=runtime
+		
 		if args["print"] == 1:
-			print("Final: {}\n".format(final))
-		if args["time"] == 1:
-			print("running time is {}s\n".format(runtime))
+			print(f"Final sorting completed at {name}...\n")
+		ResultDict['runtime']=runtime
+		# if args["print"] == 1:
+		# 	print("Final: {}\n".format(final))
+		# if args["time"] == 1:
+		# 	print("running time is {}s\n".format(runtime))
 
 		with open(os.path.join(args["save"],'resultDict.pickle'), "wb+") as output_file:
 			pickle.dump(ResultDict, output_file)
