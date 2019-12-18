@@ -80,7 +80,7 @@ if size >1:
 		if rank == i:
 			p_data = comm.recv(source = 0)
 			if args["print"] == 1:
-				print(f"Partition #{i} of {size} assigned to {name}...")
+				print(f"Partition #{i+1} of {size} assigned to {name}...")
 				# print("Received partition at node {}: {}\n".format(rank, p_data))
 	
 	p_data = mergeSort(p_data)
@@ -99,7 +99,7 @@ if size >1:
 			final = merge(final, c_data[i])
 			ResultDict[f'sorted_data_part{i+1}']=c_data[i]
 		if args["print"] == 1:
-			print(f"Merge of {size} partitionsand final sorting completed at {name}...")
+			print(f"Merge of {size} partitions completed, and final sorting done at {name}...")
 
 		ResultDict['sorted_data_merged']=final
 		toc = time.time()

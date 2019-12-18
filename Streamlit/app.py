@@ -32,6 +32,7 @@ def main():
             output=os.system(command)
             st.success(command)
             Result=output.read()
+            st.write(Result)
             with open(os.path.join(StreamlitDIR,'resultDict.pickle'), "rb+") as pklfile:
                 ResultDict=pickle.load(pklfile)
 
