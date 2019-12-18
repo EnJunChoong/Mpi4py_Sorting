@@ -19,7 +19,7 @@ def main():
     if selectMode == 'Introduction':
         st.sidebar.text('Change mode to run Demo...')
         st.markdown('This project is to demonstrate merge sort on distributed computing using 3 AWC EC2 instacnces. Webservice is hosted using Streamlit.')
-        st.image("WorkFlow.png")
+        st.image(os.path.join(StreamlitDIR,"WorkFlow.png"))
 
     if selectMode == 'Run Single Example':
         egRange=st.sidebar.slider("select size of numbers to sort", 100,100000, step=10)
