@@ -56,17 +56,16 @@ if size >1:
 	if rank == 0:
 		# generate data in node 0
 		random.seed(123)
-		data = [random.randint(0, 10000) for i in range(args["length"])]
+		datasize=args["length"]
+		data = [random.randint(0, 10000) for i in range(datasize)]
 		tic = time.time()
 		partitions=len(data)//size
 		p_data=data[:partitions]
 		ResultDict['data']=data
 		ResultDict['data_part1']=p_data
 		if args["print"] == 1:
-			print(f"{args["length"]} random numbers generated...\n")
-			print(f"Partition #1 of {args["size"]} assigned to {name}...\n")
-
-
+			print(f"{datasize} random numbers generated...\n")
+			print(f"Partition #1 of {size} assigned to {name}...\n")
 		for i in range(1,size):
 			if i == size-1:
 				comm.send(data[partitions*i:], dest = i)
@@ -81,14 +80,14 @@ if size >1:
 	    if rank == i:
 	    	p_data = comm.recv(source = 0)
 	    	if args["print"] == 1:
-				print(f"Partition #{i} of {args["size"]} assigned to {name}...\n")
+				print(f"Partition #{i} of {size} assigned to {name}...\n")
 	    		# print("Received partition at node {}: {}\n".format(rank, p_data))
 
 	p_data = mergeSort(p_data)
 
 
 	if args["print"] == 1:
-		print(f"Partition #{rank+1} of {args["size"]} finished sorted at {name}, send back to Master...\n")
+		print(f"Partition #{rank+1} of {size} finished sorting at {name}, send back to Master...\n")
 		# print("Sorted data at {}: {}\n".format(rank, p_data))
 
 	c_data = comm.gather(p_data, root = 0)
@@ -117,11 +116,12 @@ if size >1:
 			pickle.dump(ResultDict, output_file)
 else:
 	if rank == 0:
-		data = [random.randint(0, 10000) for i in range(args["length"])]
+		datasize=args["length"]
+		data = [random.randint(0, 10000) for i in range(datasize)]
 
 		if args["print"] == 1:
-			print(f"{args["length"]} random numbers generated...\n")
-			print(f"Partition #1 of {args["size"]} assigned to {name}...\n")
+			print(f"{datasize} random numbers generated...\n")
+			print(f"Partition #1 of {size} assigned to {name}...\n")
 		ResultDict['data']=data
 		tic = time.time()
 		p_data = data[:]
