@@ -64,8 +64,8 @@ if size >1:
 		ResultDict['data']=data
 		ResultDict['data_part1']=p_data
 		if args["print"] == 1:
-			print(f"{datasize} random numbers generated...\n")
-			print(f"Partition #1 of {size} assigned to {name}...\n")
+			print(f"{datasize} random numbers generated...")
+			print(f"Partition #1 of {size} assigned to {name}...")
 		for i in range(1,size):
 			if i == size-1:
 				comm.send(data[partitions*i:], dest = i)
@@ -80,14 +80,14 @@ if size >1:
 	    if rank == i:
 	    	p_data = comm.recv(source = 0)
 	    	if args["print"] == 1:
-				print(f"Partition #{i} of {size} assigned to {name}...\n")
+				print(f"Partition #{i} of {size} assigned to {name}...")
 	    		# print("Received partition at node {}: {}\n".format(rank, p_data))
 
 	p_data = mergeSort(p_data)
 
 
 	if args["print"] == 1:
-		print(f"Partition #{rank+1} of {size} finished sorting at {name}, send back to Master...\n")
+		print(f"Partition #{rank+1} of {size} finished sorting at {name}, send back to Master...")
 		# print("Sorted data at {}: {}\n".format(rank, p_data))
 
 	c_data = comm.gather(p_data, root = 0)
@@ -99,7 +99,7 @@ if size >1:
 			final = merge(final, c_data[i])
 			ResultDict[f'sorted_data_part{i+1}']=c_data[i]
 		if args["print"] == 1:
-			print(f"Merge of {size} partitionsand final sorting completed at {name}...\n")
+			print(f"Merge of {size} partitionsand final sorting completed at {name}...")
 
 		ResultDict['sorted_data_merged']=final
 		toc = time.time()
@@ -120,8 +120,8 @@ else:
 		data = [random.randint(0, 10000) for i in range(datasize)]
 
 		if args["print"] == 1:
-			print(f"{datasize} random numbers generated...\n")
-			print(f"Partition #1 of {size} assigned to {name}...\n")
+			print(f"{datasize} random numbers generated...")
+			print(f"Partition #1 of {size} assigned to {name}...")
 		ResultDict['data']=data
 		tic = time.time()
 		p_data = data[:]
@@ -131,7 +131,7 @@ else:
 		runtime=toc-tic
 		
 		if args["print"] == 1:
-			print(f"Final sorting completed at {name}...\n")
+			print(f"Final sorting completed at {name}...")
 		ResultDict['runtime']=runtime
 		# if args["print"] == 1:
 		# 	print("Final: {}\n".format(final))
