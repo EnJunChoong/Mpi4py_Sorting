@@ -51,7 +51,7 @@ def main():
                 if file.endswith('_Streamlit.py'):
                     sortAlgoDict[file.replace('_Streamlit.py','')]=os.path.join(root,file)
         dataSize = st.sidebar.number_input("Input maximum number of data points",min_value=100, max_value= 1000000, value=10000, step = 1000)
-        interval = st.sidebar.number_input("Input Computation Interval",min_value=25, max_value= 10000, value=1000, step = 25)
+        interval = st.sidebar.number_input("Input Computation Interval",min_value=25, max_value= 100000, value=1000, step = 25)
         multiSort = st.sidebar.multiselect('Select Sorting Algorithm.',options=list(sortAlgoDict.keys()),default=['MergeSort'])
         if 'MergeSort' in multiSort:
             st.sidebar.markdown('#### Only Merge Sort is implemented with distributed computing in this exercise.')
