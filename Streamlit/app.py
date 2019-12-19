@@ -29,10 +29,12 @@ def main():
 
         if runSingle:
             command=(f"mpirun -hostfile /home/ubuntu/myhostfile -np {numNodes} python3 {msfile} -l {egRange} -s {StreamlitDIR} -p 1 -t 0")
-            output=os.popen(command)
+            output=os.system(command)
             st.success(command)
             # Result=output.read()
             # st.write(Result)
+
+
             with open(os.path.join(StreamlitDIR,'resultDict.pickle'), "rb+") as pklfile:
                 ResultDict=pickle.load(pklfile)
 
