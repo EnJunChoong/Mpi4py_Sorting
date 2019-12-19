@@ -18,7 +18,7 @@ def main():
 
     if selectMode == 'Introduction':
         st.sidebar.text('Change mode to run Demo...')
-        st.markdown('This project is to demonstrate merge sort on distributed computing using 3 AWC EC2 instacnces. Webservice is hosted using Streamlit.')
+        st.markdown('This project is to demonstrate merge sort on distributed computing using 3x AWS EC2 instacnces. Webservice is hosted using Streamlit.')
         st.image(os.path.join(StreamlitDIR,"WorkFlow.png"))
 
     if selectMode == 'Run Single Example':
@@ -68,7 +68,7 @@ def main():
             loopResult=[]
             # minSize, maxSize = egRange
             for sortAlgo in multiSort:
-                for size in range(interval,dataSize,interval):
+                for size in range(interval,dataSize+interval,interval):
                     if sortAlgo == 'MergeSort':
                         for loopNodes in range(1,numNodes+1):
                             command=(f"mpirun -hostfile /home/ubuntu/myhostfile -np {loopNodes} python3 {sortAlgoDict[sortAlgo]} -l {size} -s {StreamlitDIR} -p 0 -t 0")

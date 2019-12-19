@@ -79,6 +79,7 @@ if size >1:
 	for i in range(1, size):
 		if rank == i:
 			p_data = comm.recv(source = 0)
+			ResultDict[f'data_part{i+1}']=p_data
 			if args["print"] == 1:
 				print(f"Partition #{i+1} of {size} assigned to {name}...")
 				# print("Received partition at node {}: {}\n".format(rank, p_data))
