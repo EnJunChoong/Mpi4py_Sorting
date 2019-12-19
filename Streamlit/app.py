@@ -18,7 +18,7 @@ def main():
 
     if selectMode == 'Introduction':
         st.sidebar.text('Change mode to run Demo...')
-        st.markdown('This project is to demonstrate merge sort on distributed computing using 3x AWS EC2 instacnces. Webservice is hosted using Streamlit.')
+        st.markdown('This project is to demonstrate merge sort on distributed computing using 3x AWS EC2 instances. Webservice is hosted using Streamlit.')
         st.image(os.path.join(StreamlitDIR,"WorkFlow.png"))
 
     if selectMode == 'Run Single Example':
